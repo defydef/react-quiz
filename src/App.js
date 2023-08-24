@@ -4,8 +4,7 @@ import Main from "./Main";
 
 const initialState = [
   {
-    question: "",
-    options: [],
+    questions: [{ question: "test", options: [] }],
     // loading, error, ready, active, finished
     status: "loading",
   },
@@ -15,7 +14,9 @@ function reducer(state, action) {
   // console.log(action);
   switch (action.type) {
     case "dataReceived":
-      return action.payload;
+      return { ...state, questions: action.payload, status: "ready" };
+    case "dataFailed":
+      return { ...state, status: "error" };
     default:
       throw new Error("Undefined action");
   }
@@ -27,11 +28,16 @@ export default function App() {
 
   useEffect(function () {
     async function fetchQuestions() {
-      const res = await fetch("http://localhost:8000/questions");
-      if (!res.ok) throw new Error();
-      const data = await res.json();
-      if (data.Response === "False") throw new Error(data.Error);
-      dispatch({ type: "dataReceived", payload: data });
+      try {
+        const res = await fetch("http://localhost:8000/questions");
+        console.log(res);
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        if (data.Response === "False") throw new Error();
+        dispatch({ type: "dataReceived", payload: data });
+      } catch (e) {
+        dispatch({ type: "dataFailed" });
+      }
     }
     fetchQuestions();
   }, []);
@@ -41,7 +47,7 @@ export default function App() {
       <Header />
       <Main>
         <p>1/15</p>
-        <p>{state[0].question}</p>
+        <p>{state[0].questions[0].question}</p>
       </Main>
     </div>
   );
