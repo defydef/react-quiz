@@ -1,14 +1,14 @@
 import { useEffect, useReducer } from "react";
 import Header from "./Header";
 import Main from "./Main";
+import Loader from "./Loader";
+import Error from "./Error";
 
-const initialState = [
-  {
-    questions: [{ question: "test", options: [] }],
-    // loading, error, ready, active, finished
-    status: "loading",
-  },
-];
+const initialState = {
+  questions: [],
+  // loading, error, ready, active, finished
+  status: "loading",
+};
 
 function reducer(state, action) {
   // console.log(action);
@@ -23,14 +23,13 @@ function reducer(state, action) {
 }
 
 export default function App() {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  console.log(state);
+  const [{ questions, status }, dispatch] = useReducer(reducer, initialState);
 
   useEffect(function () {
+    const controller = new AbortController();
     async function fetchQuestions() {
       try {
         const res = await fetch("http://localhost:8000/questions");
-        console.log(res);
         if (!res.ok) throw new Error();
         const data = await res.json();
         if (data.Response === "False") throw new Error();
@@ -40,6 +39,10 @@ export default function App() {
       }
     }
     fetchQuestions();
+    // cleanup function
+    return function () {
+      controller.abort();
+    };
   }, []);
 
   return (
@@ -47,7 +50,8 @@ export default function App() {
       <Header />
       <Main>
         <p>1/15</p>
-        <p>{state[0].questions[0].question}</p>
+        {status === "loading" && <Loader />}
+        {status === "error" && <Error />}
       </Main>
     </div>
   );
