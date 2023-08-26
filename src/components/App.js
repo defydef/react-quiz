@@ -10,6 +10,8 @@ const initialState = {
   questions: [],
   // loading, error, ready, active, finished
   status: "loading",
+  currQuestion: 0,
+  answer: null,
 };
 
 function reducer(state, action) {
@@ -21,14 +23,18 @@ function reducer(state, action) {
       return { ...state, status: "error" };
     case "startQuiz":
       return { ...state, status: "active" };
+    case "newAnswer":
+      return { ...state, answer: action.payload };
     default:
       throw new Error("Undefined action");
   }
 }
 
 export default function App() {
-  const [{ questions, status }, dispatch] = useReducer(reducer, initialState);
-
+  const [{ questions, status, currQuestion, answer }, dispatch] = useReducer(
+    reducer,
+    initialState
+  );
   useEffect(function () {
     const controller = new AbortController();
     async function fetchQuestions() {
@@ -58,7 +64,9 @@ export default function App() {
         {status === "ready" && (
           <StartScreen numQuestions={questions.length} onStartQuiz={dispatch} />
         )}
-        {status === "active" && <Question />}
+        {status === "active" && (
+          <Question question={questions[currQuestion]} onAnswer={dispatch} />
+        )}
       </Main>
     </div>
   );
