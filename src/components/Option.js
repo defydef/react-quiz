@@ -1,26 +1,11 @@
-import { useState } from "react";
-
-function Option({
-  isAnswered,
-  option,
-  index,
-  correctOption,
-  onAnswer,
-  onSetIsAnswered,
-}) {
-  const [isSelected, setIsSelected] = useState(false);
-  function handleAnswer(index) {
-    onSetIsAnswered(true);
-    onAnswer({ type: "newAnswer", payload: index });
-    setIsSelected(true);
-  }
+function Option({ option, index, correctOption, onAnswer, answer }) {
   return (
     <button
       className={`btn btn-option ${
-        isAnswered ? (index === correctOption ? "correct" : "wrong") : ""
-      } ${isSelected ? "answer" : ""}`}
+        answer ? (index === correctOption ? "correct" : "wrong") : ""
+      } ${answer === index ? "answer" : ""}`}
       key={option}
-      onClick={() => handleAnswer(index)}
+      onClick={() => onAnswer({ type: "newAnswer", payload: index })}
     >
       {option}
     </button>

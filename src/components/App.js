@@ -65,7 +65,11 @@ export default function App() {
           <StartScreen numQuestions={questions.length} onStartQuiz={dispatch} />
         )}
         {status === "active" && (
-          <Question question={questions[currQuestion]} onAnswer={dispatch} />
+          <Question
+            question={questions[currQuestion]}
+            onAnswer={dispatch}
+            answer={answer}
+          />
         )}
       </Main>
     </div>
