@@ -1,12 +1,16 @@
 import Options from "./Options";
 
-function Question({ question, onAnswer, answer, score }) {
+function Question({
+  question,
+  onAnswer,
+  answer,
+  score,
+  numQuestions,
+  currQuestion,
+}) {
   return (
     <div>
       <h4>{question.question}</h4>
-      <div class="result">
-        <span>{score}/100</span>
-      </div>
       <Options
         question={question}
         onAnswer={onAnswer}

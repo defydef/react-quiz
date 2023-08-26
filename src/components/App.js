@@ -6,6 +6,7 @@ import Error from "./Error";
 import StartScreen from "./StartScreen";
 import Question from "./Question";
 import NextButton from "./NextButton";
+import ProgressBar from "./ProgressBar";
 
 const initialState = {
   questions: [],
@@ -75,12 +76,22 @@ export default function App() {
           <StartScreen numQuestions={questions.length} onStartQuiz={dispatch} />
         )}
         {status === "active" && (
-          <Question
-            question={questions[currQuestion]}
-            onAnswer={dispatch}
-            answer={answer}
-            score={score}
-          />
+          <>
+            <ProgressBar
+              numQuestions={questions.length}
+              currQuestion={currQuestion}
+              score={score}
+              answer={answer}
+            />
+            <Question
+              question={questions[currQuestion]}
+              onAnswer={dispatch}
+              answer={answer}
+              score={score}
+              numQuestions={questions.length}
+              currQuestion={currQuestion}
+            />
+          </>
         )}
         {answer !== null && <NextButton dispatch={dispatch} />}
       </Main>
