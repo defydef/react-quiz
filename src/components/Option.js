@@ -1,11 +1,21 @@
-function Option({ option, index, correctOption, onAnswer, answer }) {
+function Option({ option, index, correctOption, onAnswer, answer, score }) {
+  console.log(score);
   return (
     <button
       className={`btn btn-option ${
-        answer ? (index === correctOption ? "correct" : "wrong") : ""
+        answer !== null ? (index === correctOption ? "correct" : "wrong") : ""
       } ${answer === index ? "answer" : ""}`}
       key={option}
-      onClick={() => onAnswer({ type: "newAnswer", payload: index })}
+      onClick={() =>
+        onAnswer({
+          type: "newAnswer",
+          payload: {
+            answer: index,
+            score: index === correctOption ? score + 10 : score,
+          },
+        })
+      }
+      disabled={answer !== null}
     >
       {option}
     </button>
