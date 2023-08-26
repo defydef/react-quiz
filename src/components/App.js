@@ -5,6 +5,7 @@ import Loader from "./Loader";
 import Error from "./Error";
 import StartScreen from "./StartScreen";
 import Question from "./Question";
+import NextButton from "./NextButton";
 
 const initialState = {
   questions: [],
@@ -29,6 +30,12 @@ function reducer(state, action) {
         ...state,
         answer: action.payload.answer,
         score: action.payload.score,
+      };
+    case "nextQuestion":
+      return {
+        ...state,
+        currQuestion: state.currQuestion + 1,
+        answer: null,
       };
     default:
       throw new Error("Undefined action");
@@ -75,7 +82,7 @@ export default function App() {
             score={score}
           />
         )}
-        {answer !== null && <button className="btn">Next</button>}
+        {answer !== null && <NextButton dispatch={dispatch} />}
       </Main>
     </div>
   );

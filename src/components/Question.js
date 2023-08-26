@@ -5,7 +5,7 @@ function Question({ question, onAnswer, answer, score }) {
     <div>
       <h4>{question.question}</h4>
       <div class="result">
-        <span>{score}/10</span>
+        <span>{score}/100</span>
       </div>
       <Options
         question={question}
