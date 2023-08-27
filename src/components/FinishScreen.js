@@ -14,14 +14,14 @@ function FinishScreen({ score, maxPossiblePoints, highscore, onRestartQuiz }) {
     emoji = "🤦🏻‍♀️";
   }
   return (
-    <div className="start">
+    <>
       <p className="result">
         {emoji} You scored <strong>{score}</strong> out of {maxPossiblePoints} (
         {percentage}%)
       </p>
       <p className="highscore">Highscore : {highscore} points</p>
       <button
-        className="btn"
+        className="btn btn-ui"
         onClick={() =>
           onRestartQuiz({
             type: "restartQuiz",
@@ -30,7 +30,7 @@ function FinishScreen({ score, maxPossiblePoints, highscore, onRestartQuiz }) {
       >
         Restart Quiz
       </button>
-    </div>
+    </>
   );
 }
 

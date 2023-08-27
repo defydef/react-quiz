@@ -8,6 +8,8 @@ import Question from "./Question";
 import NextButton from "./NextButton";
 import ProgressBar from "./ProgressBar";
 import FinishScreen from "./FinishScreen";
+import Timer from "./Timer";
+import Footer from "./Footer";
 
 const initialState = {
   questions: [],
@@ -17,6 +19,7 @@ const initialState = {
   answer: null,
   score: 0,
   highscore: 0,
+  secondsRemaining: 10,
 };
 
 function reducer(state, action) {
@@ -53,8 +56,14 @@ function reducer(state, action) {
         currQuestion: 0,
         answer: null,
         score: 0,
+        secondsRemaining: 10,
       };
-
+    case "executeTimer":
+      return {
+        ...state,
+        secondsRemaining: state.secondsRemaining - 1,
+        status: state.secondsRemaining === 0 ? "finished" : state.status,
+      };
     default:
       throw new Error("Undefined action");
   }
@@ -62,7 +71,15 @@ function reducer(state, action) {
 
 export default function App() {
   const [
-    { questions, status, currQuestion, answer, score, highscore },
+    {
+      questions,
+      status,
+      currQuestion,
+      answer,
+      score,
+      highscore,
+      secondsRemaining,
+    },
     dispatch,
   ] = useReducer(reducer, initialState);
   useEffect(function () {
@@ -110,13 +127,17 @@ export default function App() {
               numQuestions={questions.length}
               currQuestion={currQuestion}
             />
-            {answer !== null && (
+            <Footer>
+              <Timer
+                onExecuteTimer={dispatch}
+                secondsRemaining={secondsRemaining}
+              />
               <NextButton
                 dispatch={dispatch}
                 currQuestion={currQuestion}
                 numQuestions={questions.length}
               />
-            )}
+            </Footer>
           </>
         )}
         {status === "finished" && (
