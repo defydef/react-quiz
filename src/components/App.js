@@ -16,6 +16,7 @@ const initialState = {
   currQuestion: 0,
   answer: null,
   score: 0,
+  highscore: 0,
 };
 
 function reducer(state, action) {
@@ -39,15 +40,31 @@ function reducer(state, action) {
         answer: null,
       };
     case "finishQuiz":
-      return { ...state, status: "finished" };
+      return {
+        ...state,
+        status: "finished",
+        highscore:
+          state.highscore < state.score ? state.score : state.highscore,
+      };
+    case "restartQuiz":
+      return {
+        ...state,
+        status: "ready",
+        currQuestion: 0,
+        answer: null,
+        score: 0,
+      };
+
     default:
       throw new Error("Undefined action");
   }
 }
 
 export default function App() {
-  const [{ questions, status, currQuestion, answer, score }, dispatch] =
-    useReducer(reducer, initialState);
+  const [
+    { questions, status, currQuestion, answer, score, highscore },
+    dispatch,
+  ] = useReducer(reducer, initialState);
   useEffect(function () {
     const controller = new AbortController();
     async function fetchQuestions() {
@@ -106,6 +123,8 @@ export default function App() {
           <FinishScreen
             score={score}
             maxPossiblePoints={questions.length * 10}
+            highscore={highscore}
+            onRestartQuiz={dispatch}
           />
         )}
       </Main>

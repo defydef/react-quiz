@@ -9,7 +9,7 @@ function NextButton({ dispatch, currQuestion, numQuestions }) {
 
   return (
     <button className="btn btn-ui" onClick={handleNext}>
-      Next
+      {currQuestion < numQuestions - 1 ? "Next" : "Finish Quiz"}
     </button>
   );
 }
