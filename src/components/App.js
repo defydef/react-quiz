@@ -38,6 +38,8 @@ function reducer(state, action) {
         currQuestion: state.currQuestion + 1,
         answer: null,
       };
+    case "finishQuiz":
+      return { ...state, status: "finished" };
     default:
       throw new Error("Undefined action");
   }
@@ -91,9 +93,16 @@ export default function App() {
               numQuestions={questions.length}
               currQuestion={currQuestion}
             />
+            {answer !== null && (
+              <NextButton
+                dispatch={dispatch}
+                currQuestion={currQuestion}
+                numQuestions={questions.length}
+              />
+            )}
           </>
         )}
-        {answer !== null && <NextButton dispatch={dispatch} />}
+        {status === "finished" && <h2>End of Quiz</h2>}
       </Main>
     </div>
   );
