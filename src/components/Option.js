@@ -1,5 +1,4 @@
 function Option({ option, index, correctOption, onAnswer, answer, score }) {
-  console.log(score);
   return (
     <button
       className={`btn btn-option ${

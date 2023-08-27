@@ -7,6 +7,7 @@ import StartScreen from "./StartScreen";
 import Question from "./Question";
 import NextButton from "./NextButton";
 import ProgressBar from "./ProgressBar";
+import FinishScreen from "./FinishScreen";
 
 const initialState = {
   questions: [],
@@ -18,7 +19,6 @@ const initialState = {
 };
 
 function reducer(state, action) {
-  // console.log(action);
   switch (action.type) {
     case "dataReceived":
       return { ...state, questions: action.payload, status: "ready" };
@@ -102,7 +102,12 @@ export default function App() {
             )}
           </>
         )}
-        {status === "finished" && <h2>End of Quiz</h2>}
+        {status === "finished" && (
+          <FinishScreen
+            score={score}
+            maxPossiblePoints={questions.length * 10}
+          />
+        )}
       </Main>
     </div>
   );
