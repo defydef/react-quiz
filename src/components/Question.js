@@ -1,22 +1,12 @@
+import { useQuiz } from "../contexts/QuizContext";
 import Options from "./Options";
 
-function Question({
-  question,
-  onAnswer,
-  answer,
-  score,
-  numQuestions,
-  currQuestion,
-}) {
+function Question() {
+  const { questions, currQuestion } = useQuiz();
   return (
     <div>
-      <h4>{question.question}</h4>
-      <Options
-        question={question}
-        onAnswer={onAnswer}
-        answer={answer}
-        score={score}
-      />
+      <h4>{questions[currQuestion].question}</h4>
+      <Options />
     </div>
   );
 }

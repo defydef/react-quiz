@@ -1,7 +1,4 @@
-import { useQuiz } from "../contexts/QuizContext";
-
-function Option({ option, index, correctOption }) {
-  const { answer, score, dispatch } = useQuiz();
+function Option({ option, index, correctOption, onAnswer, answer, score }) {
   return (
     <button
       className={`btn btn-option ${
@@ -9,7 +6,7 @@ function Option({ option, index, correctOption }) {
       } ${answer === index ? "answer" : ""}`}
       key={option}
       onClick={() =>
-        dispatch({
+        onAnswer({
           type: "newAnswer",
           payload: {
             answer: index,

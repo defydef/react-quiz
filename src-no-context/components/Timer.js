@@ -1,19 +1,17 @@
 import { useEffect } from "react";
-import { useQuiz } from "../contexts/QuizContext";
 
-function Timer() {
-  const { dispatch, secondsRemaining } = useQuiz();
+function Timer({ onExecuteTimer, secondsRemaining }) {
   const mins = Math.floor(secondsRemaining / 60);
   const seconds = secondsRemaining % 60;
   useEffect(
     function () {
       const id = setInterval(() => {
         // run function inside setInterval every 1000ms
-        dispatch({ type: "executeTimer" });
+        onExecuteTimer({ type: "executeTimer" });
       }, 1000);
       return () => clearInterval(id); // cleanup function: stop timer when Timer component unmounts
     },
-    [dispatch, secondsRemaining]
+    [onExecuteTimer, secondsRemaining]
   );
 
   return (

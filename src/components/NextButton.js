@@ -1,15 +1,19 @@
-function NextButton({ dispatch, currQuestion, numQuestions }) {
+import { useQuiz } from "../contexts/QuizContext";
+
+function NextButton() {
   function handleNext() {
-    if (currQuestion < numQuestions - 1) {
+    if (currQuestion < questions.length - 1) {
       dispatch({ type: "nextQuestion" });
     } else {
       dispatch({ type: "finishQuiz" });
     }
   }
 
+  const { dispatch, currQuestion, questions } = useQuiz();
+
   return (
     <button className="btn btn-ui" onClick={handleNext}>
-      {currQuestion < numQuestions - 1 ? "Next" : "Finish Quiz"}
+      {currQuestion < questions.length - 1 ? "Next" : "Finish Quiz"}
     </button>
   );
 }

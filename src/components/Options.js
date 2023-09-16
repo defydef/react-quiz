@@ -1,17 +1,18 @@
+import { useQuiz } from "../contexts/QuizContext";
 import Option from "./Option";
 
-function Options({ question, onAnswer, answer, score }) {
+//question={questions[currQuestion]}
+
+function Options() {
+  const { questions, currQuestion } = useQuiz();
   return (
     <div className="options">
-      {question.options.map((o, index) => (
+      {questions[currQuestion].options.map((o, index) => (
         <Option
           key={index}
-          answer={answer}
           option={o}
           index={index}
-          correctOption={question.correctOption}
-          onAnswer={onAnswer}
-          score={score}
+          correctOption={questions[currQuestion].correctOption}
         />
       ))}
     </div>
